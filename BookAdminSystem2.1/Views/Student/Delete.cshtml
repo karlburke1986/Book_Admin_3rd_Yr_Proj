@@ -1,0 +1,31 @@
+﻿@model StConlethsBookSystem_v2._1.Models.StudentModels.DeleteStudentViewModel
+
+@{
+    ViewBag.Title = "Delete";
+}
+
+
+<div style="padding-bottom: 25px; text-align:center">
+    @if (ViewBag.BookCount != null)
+    {
+        <h3>Are you sure you want to delete @Model.studentName and return all @ViewBag.BookCount assigned books to stock?</h3>
+    }
+    @if (ViewBag.BookCount == null)
+    {
+        <h3>Are you sure you want to delete @Model.studentName?</h3>
+    }
+
+</div>
+
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    <div class="col-md-offset-6">
+        <div class="form-actions no-color row">
+            <input type="submit" value="Yes" class="btn btn-success" /> |
+            @Html.ActionLink("No", "Index", "Student", new { @class = "btn btn-danger" })
+        </div>
+    </div>
+}
+

@@ -1,0 +1,100 @@
+﻿@model StConlethsBookSystem_v2._1.Models.BookModels.AddBookViewModel
+
+@{
+    ViewBag.Title = "Create";
+}
+
+
+@using (Html.BeginForm()) 
+{
+    @Html.AntiForgeryToken()
+    
+    <div class="form-horizontal col-md-offset-4">
+        <div class="col-md-offset-2">
+            <h2>Create</h2>
+        </div>
+        
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group">
+            @Html.LabelFor(model => model.Title, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Title, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Title, "", new { @class = "text-danger" })
+                @{
+                    foreach (ModelState modelstate in ViewData.ModelState.Values)
+                    {
+                        foreach (ModelError error in modelstate.Errors)
+                        {
+                            if (error.ErrorMessage.Contains("Title Error:"))
+                            {
+                                <div class="alert alert-danger">
+                                    @Html.DisplayFor(modelItem => error.ErrorMessage)
+                                </div>                                    
+                            }
+                        }
+
+                    }
+                }
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Author, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Author, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Author, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Edition, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Edition, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Edition, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Subject, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownListFor(model => model.Subject, new SelectList(ViewBag.Subjects, "Name", "Name"), "Select Subject", new { style = "font-size: 1.2em", @class = "form-control"})
+                @Html.ValidationMessageFor(model => model.Subject, "", new { @class = "text-danger" })
+                @{
+                    foreach (ModelState modelstate in ViewData.ModelState.Values)
+                    {
+                        foreach (ModelError error in modelstate.Errors)
+                        {
+                            if (error.ErrorMessage.Contains("Subject Error:"))
+                            {
+                                <div class="alert alert-danger">
+                                    @Html.DisplayFor(modelItem => error.ErrorMessage)
+                                </div>
+                            }
+                        }
+
+                    }
+                }
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Quantity, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Quantity, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Quantity, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Create" class="btn btn-success" />
+                @Html.ActionLink("Cancel", "Index", "BookDes", new { @class = "btn btn-danger" })
+            </div>
+        </div>
+    </div>
+}
+
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

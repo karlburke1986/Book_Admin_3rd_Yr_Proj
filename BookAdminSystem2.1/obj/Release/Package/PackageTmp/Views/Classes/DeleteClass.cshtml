@@ -1,0 +1,22 @@
+﻿@model StConlethsBookSystem_v2._1.Models.ClassesModels.RemoveClassModel
+
+@{
+    ViewBag.Title = "DeleteClass";
+}
+
+
+<div class="row">
+    <div class="col-md-8 col-md-offset-4" style="padding-bottom: 25px;">
+        <h3>Are you sure you want to delete class @Model.ClassName?</h3>
+
+        @using (Html.BeginForm())
+        {
+            @Html.AntiForgeryToken()
+
+            <div class="form-actions no-color col-md-10 col-md-offset-2">
+                <input type="submit" value="Yes" class="btn btn-success" /> |
+                @Html.ActionLink("No", "Index", "Classes", new { @class = "btn btn-danger" })
+            </div>
+        }
+    </div>
+</div>

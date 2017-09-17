@@ -1,0 +1,195 @@
+﻿@using PagedList;
+@using PagedList.Mvc;
+@model PagedList.IPagedList<StConlethsBookSystem_v2._1.Models.Student>
+
+<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
+
+@{
+    ViewBag.Title = "Index";
+}
+
+
+<div class="col-md-12">
+    <h2>Index</h2>
+    @using (Html.BeginForm())
+    {
+        <div class="col-md-12" style="padding-left: 0px; padding-bottom: 0px;">
+            <div class="col-md-2" style="padding-left: 0px;">
+                <input type="text" class="search-query form-control" placeholder="Search First Name" name="fname" 
+                        @{
+                           if(ViewBag.fname != null)
+                           {
+                               string output = ViewBag.fname;
+                               @Html.Raw("value=\"");
+                               @Html.Raw(output + "\"");
+                           }
+
+                       }
+                         
+                       />
+            </div>
+            <div class="col-md-2" style="padding-left: 0px;">
+                <input type="text" class="search-query form-control" placeholder="Search Surname" name="sname"
+                       @{
+                           if(ViewBag.sname != null)
+                           {
+                               string output = ViewBag.sname;
+                               @Html.Raw("value=\"");
+                               @Html.Raw(output + "\"");
+                           }
+
+                       }
+                       
+                        />
+            </div>
+            <div class="editor-field col-md-2">
+                @{
+                    int yearSel = 0;
+
+                    if(ViewBag.year != null)
+                    {
+                        yearSel = Convert.ToInt32(ViewBag.year);
+                    }
+
+
+                    int year = DateTime.Now.Year;
+
+                    if (DateTime.Now.Month < 6)
+                    {
+                        year--;
+                    }
+                    var result = new List<SelectListItem>();
+                    result.Add(new SelectListItem
+                    {
+                        Value = null,
+                        Text = "All years "
+                    });
+                    result.Add(new SelectListItem
+                    {
+                        Value = year.ToString(),
+                        Text = "1st Year"
+                    });
+                    result.Add(new SelectListItem
+                    {
+                        Value = (year - 1).ToString(),
+                        Text = "2nd Year"
+                    });
+                    result.Add(new SelectListItem
+                    {
+                        Value = (year - 2).ToString(),
+                        Text = "3rd Year"
+                    });
+                    result.Add(new SelectListItem
+                    {
+                        Value = (year - 3).ToString(),
+                        Text = "5th Year / TY"
+                    });
+                    result.Add(new SelectListItem
+                    {
+                        Value = (year - 4).ToString(),
+                        Text = "6th Year"
+                    });
+                    result.Add(new SelectListItem
+                    {
+                        Value = "1",
+                        Text = "Teacher"
+                    });
+
+                    foreach (var item in result)
+                    {
+                        if (item.Value == yearSel.ToString())
+                        {
+                            item.Selected = true;
+                            break;
+                        }
+                    }
+                }
+                @Html.DropDownList("List", result, new { style = "font-size: 1.2em", @class = "form-control", Name = "year" })
+            </div>
+            <div class="col-md-1" style="padding-left: 0px; padding-right: 0px;">
+                <button class="btn btn-success" type="submit" value="Search">
+                    Search
+                </button>
+            </div> 
+            <div class="col-md-1" style="padding-left: 0px; padding-right: 0px;">
+                <button class="btn btn-success" type="submit" id="showall" value="yes" name="showall">
+                    Clear
+                </button>              
+            </div>
+            @if (User.IsInRole("Admin"))
+            {
+                <div class="dropdown col-md-4" style="padding-left: 120px;">
+                    <button class="btn btn-success dropdown-toggle" type="button" data-toggle="dropdown">
+                        Create
+                        <span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu">
+                        <li><a href="@Url.Action("AddStudent", "Student", new {type = "Student" })">Add Student</a></li>
+                        <li><a href="@Url.Action("AddStudent", "Student", new { type = "Teacher"})">Add Teacher</a></li>
+                        <li><a href="@Url.Action("CSVUpload", "Student")">CSV Upload</a></li>
+                    </ul>
+                </div>
+            }
+           
+        </div>
+                    }
+    <br />
+    <br />
+    <div class="col-md-12" style="padding-left: 0px; padding-top: 0px;">
+        <table class="table">
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.First().FirstName)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.First().LastName)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.First().Year)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.First().Class)
+                </th>
+                <th></th>
+            </tr>
+
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.FirstName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.LastName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Year)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Class)
+                    </td>
+                    <td>
+                        @if (User.IsInRole("Admin"))
+                        {
+                            <div class="dropdown">
+                                <button class="btn btn-success dropdown-toggle" type="button" data-toggle="dropdown">
+                                    Options
+                                    <span class="caret"></span>
+                                </button>
+                                <ul class="dropdown-menu">
+                                    <li><a href="@Url.Action("Delete", "Student", new { id = item.ID })">Delete</a></li>
+                                    <li><a href="@Url.Action("Edit", "Student", new { id = item.ID })">Edit</a></li>
+                                    <li><a href="@Url.Action("StudentsBooks", "Student", new { id = item.ID})">Books</a></li>
+                                </ul>
+                            </div>
+                        }                        
+                    </td>
+                </tr>
+            }
+
+        </table>
+        Page @(Model.PageCount < Model.PageCount ? 0 : Model.PageNumber) of @Model.PageCount
+
+        @Html.PagedListPager(Model, page => Url.Action("Index", new { page }))
+    </div>
+</div>

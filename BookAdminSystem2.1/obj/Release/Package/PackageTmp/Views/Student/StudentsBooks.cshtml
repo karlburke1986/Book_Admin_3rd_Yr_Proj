@@ -1,0 +1,112 @@
+﻿@model StConlethsBookSystem_v2._1.Models.StudentModels.StudentsBookViewModel
+
+@{
+    ViewBag.Title = "StudentsBooks";
+}
+@{ 
+    var id = Model.ID;
+}
+
+<br />
+
+
+<div>
+    <div class="row StuBooksHeader panel panel-default">
+        <div class="col-md-3">
+            @Html.DisplayName("Student Name : ")
+            @Html.DisplayFor(model => model.StudentName)
+        </div>
+        @{
+            if (Model.Class != null)
+            {
+                <div class="col-md-3">
+                    @Html.DisplayName("Class :")
+                    @Html.DisplayFor(model => model.Class)
+                </div>
+            }
+        }
+        <div class="col-md-2">
+            @Html.DisplayName("Year :")
+            @Html.DisplayFor(model => model.Year)
+        </div>
+
+        @{if (User.IsInRole("Admin"))
+            {
+        <div class="col-md-4 row">
+            
+                <div class="col-md-9" style="padding-right: 0px;">
+                    <input type="text" class="search-query form-control" placeholder="Scan Book" name="txtIn" id="txt" autofocus />
+                </div>
+                <div class="col-md-3" style="padding-left: 0px;">
+                    <button class="btn btn-default" type="button">
+                        <span class="glyphicon glyphicon-search"></span>
+                    </button>
+                </div>
+                        
+        </div>
+            }
+        }
+
+    </div>
+</div>
+
+<br />
+
+
+
+
+<div id="allBooks">
+
+</div>
+
+
+@{if (User.IsInRole("Admin"))
+    {
+
+        @section Scripts
+{
+            <script>
+
+                $('#txt').keydown(function (e) {
+
+                    e = e || window.event;
+                    if (e.keyCode == 13) {
+                        var bookCodes = document.getElementById('txt').value;
+                        var loc = '@Url.Action("_Books", "Student")?studentID=' + @id + '&barcode=' + bookCodes;
+
+                        $('#allBooks').load(loc);
+
+                        document.getElementById('txt').value = "";
+                        return false;
+                    }
+
+                });
+
+                $(window).load(function () {
+                    var bookCodes = document.getElementById('txt').value;
+                    var loc = '@Url.Action("_Books", "Student")?studentID=' + @id;
+
+                    $('#allBooks').load(loc);
+
+                });
+
+
+
+
+            </script>
+        }
+    }
+
+    else
+    {
+        @section Scripts
+{
+            <script>
+                $(window).load(function () {                    
+                    var loc = '@Url.Action("_Books", "Student")?studentID=' + @id;
+                    $('#allBooks').load(loc);
+                });
+            </script>
+        }
+    }
+}

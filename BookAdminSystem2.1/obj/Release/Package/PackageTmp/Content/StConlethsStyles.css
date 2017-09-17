@@ -1,0 +1,84 @@
+﻿body {
+    margin-bottom: 300px !important;
+    clear:both !important;
+}
+
+.headingLogInStCC
+{
+    margin-top: 7px;
+    text-align:center;
+    font-size: 16pt;
+    font-weight: bolder !important;
+    color: #09a11a !important;
+}
+
+.topHeading
+{
+    margin-top: 7px;
+    font-size: 16pt;
+    font-weight: bolder !important;
+    color: #09a11a !important;
+}
+
+.glyphicon {
+    font-size: 35px !important;
+    text-align:center;
+}
+
+.glyphicon.glyphicon-search {
+    font-size: 14px !important;
+    text-align:center;
+}
+
+.navbar-inverse{
+    background-color: #fff !important;
+    border-bottom-color: #fff !important;
+    color: #09a11a !important;
+    border-color: #fff !important;
+}
+
+.navbar-inverse .navbar-nav > li > a:hover,
+.navbar-inverse .navbar-nav > li > a:focus {
+  color: #09a11a !important;
+  background-color: transparent;
+}
+
+.navbar-inverse .navbar-nav > li > a {
+  color: #09a11a !important;
+}
+
+
+h1{
+    color: #09a11a !important;
+}
+
+h2{
+    color: #09a11a !important;
+}
+
+
+.ccPanel{
+    color: #09a11a;
+    text-align:center;
+    text-decoration: none;
+    border-color: black;
+    background-color: beige;
+    font-weight: bolder;
+    font-size: 20px;    
+}
+
+.StuBooksHeader{
+    font-weight: bolder;
+    font-size: 10pt;
+}
+
+.close {
+  font-size: 20px;
+  font-weight: bold;
+  line-height: 18px;
+  color: #000000;
+  text-shadow: 0 1px 0 #ffffff;
+  opacity: 0.2;
+  filter: alpha(opacity=20);
+  text-decoration: none;
+}

@@ -1,0 +1,72 @@
+﻿@model StConlethsBookSystem_v2._1.Models.ReturnBooksModel.ReturnBookViewModel
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<div style="text-align:center">
+    <h2>Please enter the barcodes of the books you wish to unassign</h2>
+</div>
+@using (Html.BeginForm())
+{
+    <div class="row">
+        <div class="col-md-8 col-md-offset-4" style="padding-top: 10px; padding-bottom: 10px; padding-left: 40px;">
+            <div class="col-md-6 col-md-offset-1">
+                <input type="text" class="search-query form-control" placeholder="Search" name="code" autofocus />
+            </div>
+            <div class="col-md-3 col-md-pull-2" style="padding-left: 40px;">
+                <button class="btn btn-default" type="submit" value="Search">
+                    <span class="glyphicon glyphicon-search"></span>
+                </button>
+            </div>
+        </div>
+    </div>
+}
+
+
+
+
+@{
+    if (ViewBag.Message != null)
+    {
+        if (ViewBag.Message.Contains("Success"))
+        {
+            <div class="alert alert-success" role="alert" style="text-align:center">
+                <strong>@ViewBag.Message</strong>
+            </div>
+        }
+
+        if (ViewBag.Message.Contains("ERROR"))
+        {
+            <div class="alert alert-danger" role="alert" style="text-align:center">
+                <div class="glyphicon glyphicon-remove">
+                    <strong>@ViewBag.Message</strong>
+                </div>
+            </div>
+            }
+        }
+
+    if (Model != null)
+    {
+        <div class="row">
+            @Html.LabelFor(model => model.Barcode)
+            @Html.DisplayFor(model => model.Barcode)
+            @Html.LabelFor(model => model.Student)
+            @Html.DisplayFor(model => model.Student)
+            @Html.LabelFor(model => model.Title)
+            @Html.DisplayFor(model => model.Title)
+        </div>
+    }
+}
+
+<div class="form-group row">
+    <div class="col-md-offset-5" style="padding-left: 15px">        
+        @Html.ActionLink("Return to Admin", "Home", "Admin", null, new { @class = "btn btn-success" })
+        @Html.ActionLink("Return to Home", "Index", "Home",  null, new { @class = "btn btn-success" })
+    </div>
+</div>
+
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

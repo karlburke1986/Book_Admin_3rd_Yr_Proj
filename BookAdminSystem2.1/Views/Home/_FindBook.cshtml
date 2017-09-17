@@ -1,0 +1,98 @@
+﻿@model StConlethsBookSystem_v2._1.Models.HomeModels.SearchBookViewModel
+
+@{
+    foreach (ModelState modelstate in ViewData.ModelState.Values)
+    {
+        foreach (ModelError error in modelstate.Errors)
+        {
+                
+                <div class="alert alert-danger col-md-3 col-md-offset-5" style="text-align:center" id="Warning"> 
+                    <a class="close" id="closeWarning">&times;</a>
+                   <strong>@Html.DisplayFor(modelItem => error.ErrorMessage)</strong> 
+                </div>                                   
+         }
+
+    }
+}
+    
+@{
+    if (Model != null)
+    {
+        <div class="col-md-7 col-md-offset-5 row" id="details">
+            <a class="close" id="closeDiv">&times;</a>
+            <div class="row">
+                <div class="col-md-6">
+                    @Html.LabelFor(model => model.Barcode)
+                </div>
+                <div class="col-md-6">
+                    @Html.DisplayFor(model => model.Barcode)
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-6">
+                    @Html.LabelFor(model => model.BookName)
+                </div>
+                <div class="col-md-6">
+                    @Html.DisplayFor(model => model.BookName)
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-6">
+                    @Html.LabelFor(model => model.StudentName)
+                </div>
+                <div class="col-md-6">
+                    @Html.DisplayFor(model => model.StudentName)
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-6">
+                    @Html.LabelFor(model => model.StudentClass)
+                </div>
+                <div class="col-md-6">
+                    @Html.DisplayFor(model => model.StudentClass)
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-6">
+                    @Html.LabelFor(model => model.StudentYear)
+                </div>
+                <div class="col-md-6">
+                    @Html.DisplayFor(model => model.StudentYear)
+                </div>
+            </div>
+
+            @{
+                if (Model != null && Model.StudentID != 0)
+                {
+                    <div class="row col-md-offset-3">
+                        @Html.ActionLink("Go to Student", "StudentsBooks", "Student", new { id = Model.StudentID }, new { @class = "btn btn-success" })
+                    </div>
+                }
+            }
+        </div>
+                }
+}
+
+
+<div class="row">
+
+</div>
+
+
+@Html.HiddenFor(model => model.StudentID)
+@Html.HiddenFor(model => model.BookID)
+
+
+
+<script>
+    $("#closeDiv").click(function () {
+        $("#details").hide();
+    });
+    $("#closeWarning").click(function () {
+        $("#Warning").hide();
+    })
+</script>

@@ -1,0 +1,55 @@
+﻿@model IEnumerable<StConlethsBookSystem_v2._1.Models.BookRequestModel>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<div style="text-align:center">
+    <h2>Index</h2>
+</div>
+
+<div class="row col-md-12" style="padding-bottom: 10px">
+    @{
+        if (ViewBag.Access == true)
+        {
+            @Html.ActionLink("Close Access", "ChangeAccess", "BookRequest", new { option = false }, new { @class = "btn btn-danger" })
+        }
+        else
+        {
+            @Html.ActionLink("Open Access", "ChangeAccess", "BookRequest", new { option = true }, new { @class = "btn btn-success" })
+        }
+    }
+</div>
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayName("Requested User")
+        </th>
+        <th>
+            @Html.DisplayName("Book Name")
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Quantity)
+        </th>        
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.RequestedUser)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.BookName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Quantity)
+        </td>        
+        <td>
+            @Html.ActionLink("Resolved", "Resolved", "BookRequest", new { id = item.ID }, new { @class = "btn btn-success" })            
+        </td>
+    </tr>
+}
+
+</table>

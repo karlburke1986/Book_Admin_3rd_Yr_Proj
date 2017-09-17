@@ -1,0 +1,156 @@
+﻿@using PagedList;
+@using PagedList.Mvc;
+@model PagedList.IPagedList<StConlethsBookSystem_v2._1.Models.BookDesModels.BookDesIndexViewModel>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<div style="text-align: center">
+    <h2>Books</h2>
+    <br />
+</div>
+
+
+<div class="row" style="padding-bottom: 5px;">
+    @using (Html.BeginForm())
+    {
+        <div class="col-md-2" style="padding-left: 15px;">
+            @{
+                string selBookName = "";
+
+                if (ViewBag.Books != null)
+                {
+                    foreach (var item in ViewBag.Books)
+                    {
+                        if (ViewBag.BookName != null)
+                        {
+                            if (item.Title == ViewBag.BookName.ToString())
+                            {
+                                selBookName = item.Title;
+                            }
+                        }
+                    }
+
+                }
+                else
+                {
+                    selBookName = "Search Title";
+                }
+                @Html.DropDownList("bookName", new SelectList(ViewBag.Books, "Title", "Title", selBookName), "Search Title", new { style = "font-size: 1.2em", @class = "form-control", Name = "bookName" })
+            }
+
+        </div>
+        <div class="col-md-2" style="padding-left: 0px;">
+            @{ 
+                string selSubject = "";
+
+                if (ViewBag.Subjects != null)
+                {
+                    foreach (var item in ViewBag.Subjects)
+                    {
+                        if (ViewBag.Subject != null)
+                        {
+                            if (item.Name == ViewBag.Subject.ToString())
+                            {
+                                selSubject = item.Name;
+                            }
+                        }
+                    }
+                }
+                @Html.DropDownList("classSubject", new SelectList(ViewBag.Subjects, "Name", "Name", selSubject), "Search Subject", new { style = "font-size: 1.2em", @class = "form-control", Name = "subject" })
+            }
+        </div>        
+        <div class="col-md-1" style="padding-left: 0px; padding-right: 0px;">
+            <button class="btn btn-success" type="submit" value="Search">
+                Search
+            </button>
+        </div>
+        <div class="col-md-1" style="padding-left: 0px;">
+            <button class="btn btn-success" type="submit" id="showall" value="yes" name="showall">
+                Clear
+            </button>
+        </div>
+    }
+    <div class="col-md-2">        
+        @Html.ActionLink("Stock Count", "StockReport", "BookDes", new { target = "_blank", @class = "btn btn-success" })
+    </div>
+    <div class="col-md-2 col-md-offset-2" style="padding-left: 10px;">
+        @Html.ActionLink("Create New", "Create", "BookDes", new { @class = "btn btn-success" })
+    </div>
+</div>
+
+    
+
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.First().Title)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.First().Author)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.First().Edition)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.First().Subject)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.First().inStock)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.First().rented)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.First().unassigned)
+        </th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Title)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Author)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Edition)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Subject)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.inStock)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.rented)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.unassigned)
+        </td>
+        <td>           
+            <div class="dropdown">
+                <button class="btn btn-success dropdown-toggle" type="button" data-toggle="dropdown">
+                    Options
+                    <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu">
+                    <li><a href="@Url.Action("AddAdditionalBooks", "BookDes", new { id = item.ID })">Add</a></li>
+                    <li><a href="@Url.Action("Delete", "BookDes", new { id = item.ID })">Delete</a></li>
+                    <li><a href="@Url.Action("Edit", "BookDes", new { id = item.ID })">Edit</a></li>
+                    <li><a href="@Url.Action("Index", "Book", new { id = item.ID})">View All Books</a></li>
+                    <li>@Html.ActionLink("Print Range Labels", "PrintLabels", "BookDes", new { ID = item.ID }, new { target = "_blank"})</li>
+                </ul>
+            </div>
+        </td>
+    </tr>
+}
+
+</table>
+
+Page @(Model.PageCount < Model.PageCount ? 0 : Model.PageNumber) of @Model.PageCount
+
+@Html.PagedListPager(Model, page => Url.Action("Index", new { page }))

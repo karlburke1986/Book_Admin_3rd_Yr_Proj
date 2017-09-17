@@ -1,0 +1,21 @@
+﻿@model StConlethsBookSystem_v2._1.Models.SubjectModels.DeleteSubjectViewModel
+
+@{
+    ViewBag.Title = "DeleteSubject";
+}
+
+<div class="col-md-offset-4 col-md-8">
+    <h3>Are you sure you want to delete @Model.Name?</h3>
+
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="row">
+            <div class="form-actions no-color col-md-12 col-md-offset-2" style="padding-bottom: 25px;">
+                <input type="submit" value="Delete" class="btn btn-success" /> |
+                @Html.ActionLink("Cancel", "Index", "Subject", new { @class = "btn btn-danger" })
+            </div>
+        </div>
+    }
+</div>

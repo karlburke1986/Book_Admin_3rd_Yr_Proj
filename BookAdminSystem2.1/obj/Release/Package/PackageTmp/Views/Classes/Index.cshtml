@@ -1,0 +1,31 @@
+﻿@model IEnumerable<StConlethsBookSystem_v2._1.Models.Classes>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>    
+    @Html.ActionLink("Create New Class", "CreateClass", "Classes", new { @class = "btn btn-success" })
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.className)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.className)
+        </td>
+        <td>            
+            @Html.ActionLink("Delete Class", "DeleteClass","Classes", new { id=item.ID }, new { @class = "btn btn-success"})
+        </td>
+    </tr>
+}
+
+</table>

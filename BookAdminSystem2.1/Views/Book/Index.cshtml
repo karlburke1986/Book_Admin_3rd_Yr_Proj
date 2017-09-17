@@ -1,0 +1,234 @@
+﻿@using PagedList;
+@using PagedList.Mvc;
+@model PagedList.IPagedList<StConlethsBookSystem_v2._1.Models.BookModels.BookStudentViewModel>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<br />
+
+@using (Html.BeginForm())
+{
+    <div class="row" style="padding-bottom: 10px;">
+        <div class="col-md-2">
+            @{ 
+                string name = "";
+                //if (ViewBag.BookName != null)
+                //{
+                //    foreach (var item in ViewBag.BookNames)
+                //    {
+                //        if (item.Title == ViewBag.BookName)
+                //        {
+                //            name = item.Title;
+                //            break;
+                //        }
+                //    }
+                //}
+
+                var names = new List<SelectListItem>();
+
+                foreach (var item in ViewBag.BookNames)
+                {
+                    names.Add(new SelectListItem
+                    {
+                        Value = item.Title,
+                        Text = item.Title
+                    });
+                }
+
+                foreach (var item in names)
+                {
+                    if (item.Value == ViewBag.BookName)
+                    {
+                        item.Selected = true;
+                        break;
+                    }
+                }
+
+
+            }
+            @Html.DropDownList("bookName", names, "Search Name", new { style = "font-size: 1.2em", @class = "form-control", Name = "bookName" })
+        </div>
+        <div class="col-md-2">
+            @{
+                string option = "";
+
+                if (ViewBag.Status != null)
+                {
+                    option = ViewBag.Status;
+                }
+                var Bookstatus = new List<SelectListItem>();
+                Bookstatus.Add(new SelectListItem
+                {
+                    Value = null,
+                    Text = "All"
+                });
+                Bookstatus.Add(new SelectListItem
+                {
+                    Value = "false",
+                    Text = "In"
+                });
+                Bookstatus.Add(new SelectListItem
+                {
+                    Value = "true",
+                    Text = "Out"
+                });
+
+                foreach (var item in Bookstatus)
+                {
+                    if (item.Value == option)
+                    {
+                        item.Selected = true;
+                        break;
+                    }
+                }
+
+            @Html.DropDownList("List", Bookstatus, "Search Status", new { style = "font-size: 1.2em", @class = "form-control", Name = "status" })
+          }
+        </div>
+        <div class="col-md-2">
+            <input type="text" class="search-query form-control" placeholder="Search Barcode" name="barcode" 
+                   @{ 
+                       if (ViewBag.Barcode != null)
+                       {
+                           string output = ViewBag.Barcode;
+                           @Html.Raw("value=\"");
+                           @Html.Raw(output + "\"");
+                       }
+                   }
+                   />
+        </div>
+        <div class="col-md-1" style="padding-left: 0px; padding-right: 0px;">
+            <button class="btn btn-success" type="submit" value="Search">
+                Search
+            </button>
+        </div>
+        <div class="col-md-1" style="padding-left: 0px;">
+            <button class="btn btn-success" type="submit" id="showall" value="yes" name="showall">
+                Clear
+            </button>
+        </div>
+        <div class="panel panel-default col-md-3 col-md-offset-1">
+            <div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <label for="total">Total : </label>
+                    </div>
+                    <div class="col-md-6">
+                        @{
+                            string totalBooks = ViewBag.TotalBooks.ToString();
+                            @Html.Raw(totalBooks);
+                        }
+                    </div>
+                   
+                </div>
+                <div class="row">
+                    @{
+                        if (ViewBag.TotalBooksIn != null)
+                        {
+                            <div class="col-md-6">
+                                <label for="totalIn">Total In : </label>
+                            </div>
+                            <div class="col-md-6">                                
+                                @Html.Raw(ViewBag.TotalBooksIn.ToString())
+                            </div>
+                            
+                        }
+                        else
+                        {
+                            <div class="col-md-6">
+                                <label for="totalIn">Total In : </label>
+                            </div>
+                            <div>
+
+                            </div>
+                            
+                            @Html.Raw("0");
+                        }
+
+                    }
+
+                </div>
+                <div class="row">
+                    @{
+                        if (ViewBag.TotalBooksOut != null)
+                        {
+                            <div class="col-md-6">
+                                <label for="totalIn">Total Out : </label>
+                            </div>
+                            <div class="col-md-6">                                
+                                @Html.Raw(ViewBag.TotalBooksOut.ToString())
+                            </div>                            
+                            
+                        }
+                        else
+                        {
+                            <div class="col-md-6">
+                                <label for="totalIn">Total Out : </label>
+                            </div>
+                            <div class="col-md-6">
+                                @Html.Raw("0");
+                            </div>                         
+                            
+                        }
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.First().BookID)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.First().BookName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.First().Detail)
+        </th>        
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.BookID)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.BookName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Detail)
+        </td>        
+        <td>
+            <div class="dropdown">
+                <button class="btn btn-success dropdown-toggle" type="button" data-toggle="dropdown">
+                    Options
+                    <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu">
+                    @if (item.Detail != "Unassigned")
+                    {
+                        <li><a href="@Url.Action("UnassignBook", "Book", new { id = item.BookID})">Unassign</a></li>
+                    }                    
+                    <li><a href="@Url.Action("DeleteBook", "Book", new { id = item.BookID })">Delete Book</a></li>
+                    <li>@Html.ActionLink("Print Labels", "PrintLabels", "Book", new { ID = item.BookID }, new { target = "_blank" })</li>                     
+                </ul>
+            </div>
+        </td>
+    </tr>
+    @Html.HiddenFor(model => item.StudentID)
+}
+     
+
+</table>
+
+Page @(Model.PageCount < Model.PageCount ? 0 : Model.PageNumber) of @Model.PageCount
+
+@Html.PagedListPager(Model, page => Url.Action("Index", new { page }))

@@ -1,0 +1,80 @@
+﻿
+@{
+    ViewBag.Title = "CSVUpload";
+}
+
+<div style="text-align:center">
+    <h2>CSV Upload</h2>
+</div>
+
+
+<div class="row" style="padding-top: 80px;">
+    <div class="col-md-4 col-md-offset-5" style="align-items: center">
+        @using (Html.BeginForm("CSVUpload", "Student", FormMethod.Post, new { enctype = "multipart/form-data" }))
+        {
+            @Html.AntiForgeryToken()
+
+            <div class="editor-field row">
+                @{
+                    int year = DateTime.Now.Year;
+
+                    if (DateTime.Now.Month < 6)
+                    {
+                        year--;
+                    }
+                    var result = new List<SelectListItem>();
+                    result.Add(new SelectListItem
+                    {
+                        Value = null,
+                        Text = "All years "
+                    });
+                    result.Add(new SelectListItem
+                    {
+                        Value = year.ToString(),
+                        Text = "1st Year"
+                    });
+                    result.Add(new SelectListItem
+                    {
+                        Value = (year - 1).ToString(),
+                        Text = "2nd Year"
+                    });
+                    result.Add(new SelectListItem
+                    {
+                        Value = (year - 2).ToString(),
+                        Text = "3rd Year"
+                    });
+                    result.Add(new SelectListItem
+                    {
+                        Value = (year - 3).ToString(),
+                        Text = "5th Year / TY"
+                    });
+                    result.Add(new SelectListItem
+                    {
+                        Value = (year - 4).ToString(),
+                        Text = "6th Year"
+                    });
+                    result.Add(new SelectListItem
+                    {
+                        Value = "1",
+                        Text = "Teacher"
+                    });
+                }
+                @Html.DropDownList("List", result, new { style = "font-size: 1.2em", @class = "form-control", Name = "year" })
+            </div>
+            <br />
+            <br />
+            <div class="row">
+                <input type="file" name="file" />
+                <div>
+                    <br />
+                </div>
+                <input class="btn-success" type="submit" name="Submit" id="Submit" value="Upload" />
+                <input class="btn-danger" type="button" title="Back" value="Cancel" onclick="location.href='@Url.Action("Index")    '" />
+            </div>
+            
+        }
+    </div>
+
+
+</div>
+

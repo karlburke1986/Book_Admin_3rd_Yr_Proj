@@ -1,0 +1,17 @@
+﻿ @model StConlethsBookSystem_v2._1.Models.BookDes
+
+@{
+    ViewBag.Title = "PrintLabels";
+}
+
+
+<div style="text-align:center">
+    <h2>Do you wish to print labels for these books?</h2>
+</div>
+
+
+<div class="row col-md-offset-5">
+    @Html.ActionLink("Download pdf", "Print", "BookDes", new { ID = Model.ID }, new { target = "_blank", @class = "btn btn-success" })
+    @Html.ActionLink("Return to Books", "Index", "BookDes", null, new { @class = "btn btn-danger" })
+</div>
+

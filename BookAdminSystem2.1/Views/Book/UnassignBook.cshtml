@@ -1,0 +1,60 @@
+﻿@model StConlethsBookSystem_v2._1.Models.BookModels.UnassignBookViewModel
+
+@{
+    ViewBag.Title = "UnassignBook";
+}
+
+<div class="row" style="text-align:center">
+    <h1>
+        @if(ViewBag.ID != null)
+        {
+            string ID = ViewBag.ID.ToString();
+            @Html.Raw("Book ID: " + ID);
+        }
+    </h1>
+</div>
+
+
+<div class="alert alert-danger" role="alert" style="text-align:center;">
+    <h3>Are you sure you want to unassign this book?</h3>
+</div>
+
+<div>
+    <dl class="dl-horizontal col-md-offset-4">
+
+        <dt>
+            @Html.DisplayNameFor(model => model.BookName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.BookName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.StudentName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.StudentName)
+        </dd>
+
+    </dl>
+</div>
+
+
+<div class="row col-md-offset-5">
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Unassign" class="btn btn-success" /> |
+            @Html.ActionLink("Cancel", "Index", "Book", new { @class = "btn btn-danger" })
+        </div>
+    }
+</div>
+
+@Html.HiddenFor(model => model.BookID)
+
+@Html.HiddenFor(model => model.ID)
+
+@Html.HiddenFor(model => model.StudentID)
